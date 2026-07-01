@@ -837,6 +837,7 @@ function setupInstructionListener(selector) {
       popupIcon.onclick = function() {
         currentIcon.src = this.src;
         currentIcon.setAttribute('data-action', this.getAttribute('data-action'));
+        applyTooltipToIcon(currentIcon);
         closePopup();
       };
     });
