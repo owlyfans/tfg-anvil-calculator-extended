@@ -430,14 +430,18 @@ document.getElementById("calculate-button").addEventListener("click", function()
     return sortedInstructions;
   }
 
+  // Resolve "Hit" magnitudes and sum instruction values in the order they're
+  // actually applied in-game (third-last -> ... -> last), not UI slot order,
+  // since the remaining-value math for picking a hit's size depends on it.
+  const sortedInstructions = sortInstructions(instructions);
+
   let setupActions;
   try {
-    setupActions = calculateSetupActions(targetValue, instructions);
+    setupActions = calculateSetupActions(targetValue, sortedInstructions);
   } catch (err) {
     showCalculateError(err.message);
     return;
   }
-  const sortedInstructions = sortInstructions(instructions);
 
   // Display results as images
   const setupContainer = document.getElementById("setup-actions");
