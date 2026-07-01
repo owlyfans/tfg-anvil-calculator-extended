@@ -298,8 +298,22 @@ function applyTooltipToIcon(iconElement) {
 // Holds the most recently calculated result, used when saving a recipe
 let lastCalculation = null;
 
+function showCalculateError(message) {
+  document.getElementById('calculate-error').textContent = message;
+  document.getElementById('setup-actions').innerHTML = '';
+  document.getElementById('final-actions').innerHTML = '';
+  document.getElementById('result').classList.remove('visible');
+  lastCalculation = null;
+}
+
 document.getElementById("calculate-button").addEventListener("click", function() {
+  document.getElementById('calculate-error').textContent = '';
+
   const targetValue = parseInt(document.getElementById("target-value").value);
+  if (!Number.isFinite(targetValue)) {
+    showCalculateError('Please enter a target value.');
+    return;
+  }
 
   // Collect and filter instructions
   const instructions = [];
@@ -353,6 +367,9 @@ document.getElementById("calculate-button").addEventListener("click", function()
     });
 
     let preTargetValue = targetValue - instructionSum;
+    if (!Number.isFinite(preTargetValue) || preTargetValue < 0) {
+      throw new Error('The selected final instructions already overshoot this target value — pick a higher target or different instructions.');
+    }
     const dp = Array(preTargetValue + 1).fill(Infinity);
     dp[0] = 0;
 
@@ -413,7 +430,13 @@ document.getElementById("calculate-button").addEventListener("click", function()
     return sortedInstructions;
   }
 
-  const setupActions = calculateSetupActions(targetValue, instructions);
+  let setupActions;
+  try {
+    setupActions = calculateSetupActions(targetValue, instructions);
+  } catch (err) {
+    showCalculateError(err.message);
+    return;
+  }
   const sortedInstructions = sortInstructions(instructions);
 
   // Display results as images
