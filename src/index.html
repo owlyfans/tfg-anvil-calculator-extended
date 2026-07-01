@@ -14,7 +14,7 @@
   <div class="github-link-container">
     <div class="github-link">
       <a href="https://github.com/AdrianMiller99/tfg-anvil-calculator" target="_blank" rel="noopener noreferrer">
-        <svg id="github-icon" width="32" height="32" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
+        <svg id="github-icon" width="28" height="28" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
         </svg>
       </a>
@@ -30,6 +30,17 @@
 </header>
 
 <div class="container">
+  <section id="recent-recipes" class="card">
+    <div class="recent-recipes-header">
+      <h2>Recent Anvil Recipes</h2>
+      <div class="recent-recipes-tools">
+        <span id="chain-hint" class="chain-hint hidden"></span>
+        <button id="chain-toggle-button" type="button" class="secondary-button small-button">View Chain</button>
+      </div>
+    </div>
+    <div id="recent-recipes-list" class="recipes-row"></div>
+  </section>
+
   <section id="instructions" class="card">
     <h2>Smithing Instructions</h2>
     <div class="instruction-set instruction-set-1">
@@ -69,8 +80,14 @@
 
   <section class="card">
     <h2>Target Value</h2>
-    <input type="number" id="target-value" placeholder="Enter target value" class="input-field">
-    <button id="calculate-button">Calculate</button>
+    <div class="input-row">
+      <input type="number" id="target-value" placeholder="Enter target value" class="input-field">
+      <button id="calculate-button">Calculate</button>
+    </div>
+    <div id="target-screenshot-dropzone" class="screenshot-dropzone" tabindex="0" title="Click here and paste a screenshot of the anvil (Ctrl+V)">
+      Click here and paste a screenshot of the anvil (Ctrl+V) to auto-fill the target value
+    </div>
+    <div id="target-screenshot-status" class="screenshot-status"></div>
   </section>
 
   <section id="result" class="result-card">
@@ -83,23 +100,136 @@
       <h3>2. Finally</h3>
       <div id="final-actions" class="actions-container"></div>
     </div>
+    <div class="result-actions">
+      <button id="save-recipe-button" type="button" class="secondary-button">Save Recipe</button>
+    </div>
   </section>
 </div>
 
-<!-- Action Selection Popup -->
+<!-- Action Selection Popup — anchored under the clicked icon -->
 <div id="action-popup" class="hidden">
-  <div class="action-popup-content">
-    <h3>Select an Action</h3>
-    <div class="action-options">
-      <img src="../res/punch.png" class="popup-action-icon" alt="Punch" data-action="punch">
-      <img src="../res/bend.png" class="popup-action-icon" alt="Bend" data-action="bend">
-      <img src="../res/upset.png" class="popup-action-icon" alt="Upset" data-action="upset">
-      <img src="../res/shrink.png" class="popup-action-icon" alt="Shrink" data-action="shrink">
-      <img src="../res/hit.png" class="popup-action-icon" alt="Hit" data-action="hit">
-      <img src="../res/draw.png" class="popup-action-icon" alt="Draw" data-action="draw">
-      <img src="../res/empty.png" class="popup-action-icon" alt="None" data-action="">
+  <div class="action-options">
+    <img src="../res/punch.png" class="popup-action-icon" alt="Punch" data-action="punch">
+    <img src="../res/bend.png" class="popup-action-icon" alt="Bend" data-action="bend">
+    <img src="../res/upset.png" class="popup-action-icon" alt="Upset" data-action="upset">
+    <img src="../res/shrink.png" class="popup-action-icon" alt="Shrink" data-action="shrink">
+    <img src="../res/hit.png" class="popup-action-icon" alt="Hit" data-action="hit">
+    <img src="../res/draw.png" class="popup-action-icon" alt="Draw" data-action="draw">
+    <img src="../res/empty.png" class="popup-action-icon" alt="None" data-action="">
+  </div>
+</div>
+
+<!-- Save Recipe Dialog -->
+<div id="save-recipe-overlay" class="dialog-overlay hidden">
+  <div class="dialog-card">
+    <h2>Save Recipe</h2>
+    <div class="save-recipe-form">
+      <div id="save-icon-dropzone" class="icon-dropzone" tabindex="0" title="Click here and paste an image (Ctrl+V)">
+        <img id="save-icon-preview" src="../res/empty.png" alt="Recipe icon">
+        <span class="icon-dropzone-hint">Paste image</span>
+      </div>
+      <div class="save-recipe-fields">
+        <label for="recipe-name-input">Name</label>
+        <input type="text" id="recipe-name-input" class="input-field" placeholder="e.g. Steel Sword Blade" maxlength="40">
+        <div id="save-target-preview" class="save-recipe-meta"></div>
+      </div>
     </div>
-    <button id="close-popup" class="popup-button">Close</button>
+    <div class="dialog-buttons">
+      <button id="cancel-save-recipe" type="button" class="secondary-button">Cancel</button>
+      <button id="confirm-save-recipe" type="button">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Recipe Dialog -->
+<div id="view-recipe-overlay" class="dialog-overlay hidden">
+  <div class="dialog-card">
+    <div class="view-recipe-header">
+      <img id="view-recipe-icon" src="../res/empty.png" alt="" class="view-recipe-icon">
+      <div>
+        <h2 id="view-recipe-name"></h2>
+        <div id="view-recipe-target" class="save-recipe-meta"></div>
+      </div>
+    </div>
+    <div class="setup">
+      <h3>1. Setup</h3>
+      <div id="view-recipe-setup" class="actions-container"></div>
+    </div>
+    <div class="final-instructions">
+      <h3>2. Finally</h3>
+      <div id="view-recipe-final" class="actions-container"></div>
+    </div>
+    <div class="dialog-buttons">
+      <button id="edit-recipe-button" type="button" class="secondary-button">Edit</button>
+      <button id="close-view-recipe" type="button" class="secondary-button">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Recipe Dialog -->
+<div id="edit-recipe-overlay" class="dialog-overlay hidden">
+  <div class="dialog-card">
+    <h2>Edit Recipe</h2>
+    <div class="save-recipe-form">
+      <div id="edit-icon-dropzone" class="icon-dropzone" tabindex="0" title="Click here and paste an image (Ctrl+V)">
+        <img id="edit-icon-preview" src="../res/empty.png" alt="Recipe icon">
+        <span class="icon-dropzone-hint">Paste image</span>
+      </div>
+      <div class="save-recipe-fields">
+        <label for="edit-name-input">Name</label>
+        <input type="text" id="edit-name-input" class="input-field" placeholder="e.g. Steel Sword Blade" maxlength="40">
+        <div id="edit-target-preview" class="save-recipe-meta"></div>
+      </div>
+    </div>
+    <div class="dialog-buttons">
+      <button id="cancel-edit-recipe" type="button" class="secondary-button">Cancel</button>
+      <button id="confirm-edit-recipe" type="button">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Recipe Chain Dialog — two recipes shown side by side -->
+<div id="recipe-chain-overlay" class="dialog-overlay hidden">
+  <div class="recipe-chain-dialog">
+    <div class="recipe-chain-wrapper">
+      <div class="dialog-card recipe-chain-card">
+        <div class="view-recipe-header">
+          <img id="recipe-chain-a-icon" src="../res/empty.png" alt="" class="view-recipe-icon">
+          <div>
+            <h2 id="recipe-chain-a-name"></h2>
+            <div id="recipe-chain-a-target" class="save-recipe-meta"></div>
+          </div>
+        </div>
+        <div class="setup">
+          <h3>1. Setup</h3>
+          <div id="recipe-chain-a-setup" class="actions-container"></div>
+        </div>
+        <div class="final-instructions">
+          <h3>2. Finally</h3>
+          <div id="recipe-chain-a-final" class="actions-container"></div>
+        </div>
+      </div>
+      <div class="dialog-card recipe-chain-card">
+        <div class="view-recipe-header">
+          <img id="recipe-chain-b-icon" src="../res/empty.png" alt="" class="view-recipe-icon">
+          <div>
+            <h2 id="recipe-chain-b-name"></h2>
+            <div id="recipe-chain-b-target" class="save-recipe-meta"></div>
+          </div>
+        </div>
+        <div class="setup">
+          <h3>1. Setup</h3>
+          <div id="recipe-chain-b-setup" class="actions-container"></div>
+        </div>
+        <div class="final-instructions">
+          <h3>2. Finally</h3>
+          <div id="recipe-chain-b-final" class="actions-container"></div>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-buttons">
+      <button id="close-recipe-chain" type="button" class="secondary-button">Close</button>
+    </div>
   </div>
 </div>
 

@@ -1,0 +1,10 @@
+upset - #CA8759
+shrink - #AE3D3D
+punch - #89D968
+hit3 - #3142A3
+hit2 - #4E90C0
+hit1 - #6ADDDD
+hit - transparent
+empty - transparent
+draw - #7400FF
+bend - #E8D675

@@ -1,105 +1,90 @@
-/* Default light mode */
+/* ============================================================
+   Design Tokens
+   ============================================================ */
+:root {
+  --bg: #0d0f12;
+  --bg-card: #161a20;
+  --bg-card-2: #1c2028;
+  --bg-elevated: #222836;
+  --border: #252d3a;
+  --border-light: #2e3a4e;
+  --text: #d4dce8;
+  --text-muted: #6b7d94;
+  --text-subtle: #3a4a5e;
+  --accent: #e09030;
+  --accent-hover: #f0a840;
+  --accent-glow: rgba(224, 144, 48, 0.18);
+  --green: #35bb31;
+  --green-hover: #28a024;
+  --green-glow: rgba(53, 187, 49, 0.18);
+  --radius: 10px;
+  --radius-sm: 7px;
+  --shadow: 0 4px 28px rgba(0, 0, 0, 0.45);
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --transition: 0.18s ease;
+}
+
 body.light-mode {
-  background-color: #f5f5f5;
-  color: #333;
+  --bg: #eef0f4;
+  --bg-card: #ffffff;
+  --bg-card-2: #f4f6fa;
+  --bg-elevated: #eaecf2;
+  --border: #d8dde8;
+  --border-light: #bfc7d4;
+  --text: #1e2636;
+  --text-muted: #5a6a80;
+  --text-subtle: #9aaabb;
+  --accent: #c07820;
+  --accent-hover: #d48a28;
+  --accent-glow: rgba(192, 120, 32, 0.15);
+  --green: #28a424;
+  --green-hover: #1d8a1a;
+  --green-glow: rgba(40, 164, 36, 0.15);
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-.light-mode .card, .light-mode .result-card {
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* ============================================================
+   Base
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-.light-mode .app-header {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: #333;
-}
-
-.light-mode #action-popup {
-  background-color: #fff;
-  color: #333;
-}
-
-.light-mode .priority {
-  color: #333;
-  background-color: #fff;
-  border: 1px solid #ccc;
-}
-
-/* Dark mode styles */
-body.dark-mode {
-  background-color: #121212;
-  color: #e0e0e0;
-}
-
-.dark-mode .card, .dark-mode .result-card {
-  background-color: #1e1e1e;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-.dark-mode .app-header {
-  background-color: #1e1e1e;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  color: #e0e0e0;
-}
-
-.dark-mode button {
-  background-color: #35bb31;
-}
-
-.dark-mode button:hover {
-  background-color: #258322;
-}
-
-.dark-mode #action-popup {
-  background-color: #2a2a2a;
-  color: #e0e0e0;
-}
-
-.dark-mode #action-popup .action-options img {
-  filter: brightness(0.8);
-}
-
-.dark-mode #action-popup .action-options img:hover {
-  filter: brightness(1);
-}
-
-.dark-mode .priority {
-  color: #e0e0e0;
-  background-color: #1e1e1e;
-  border: 1px solid #ccc;
-}
-
-/* Common styles for both modes */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.container {
-  padding: 20px;
-  max-width: 1000px;
-  margin: auto;
-  transition: filter 0.3s ease;
-}
-
+/* ============================================================
+   Header
+   ============================================================ */
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background-color: inherit;
-  z-index: 1000;
+  padding: 14px 28px;
   position: sticky;
   top: 0;
+  z-index: 1000;
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border);
 }
 
 .app-header .logo {
-  font-size: 32px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 600;
   flex: 1;
-  text-align: left;
+  letter-spacing: -0.2px;
+  background: linear-gradient(120deg, var(--accent) 0%, #f0c060 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .github-link-container {
@@ -108,204 +93,50 @@ body {
   transform: translateX(-50%);
 }
 
-.github-link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .github-link a {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background-color: transparent;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition);
 }
 
 .github-link a:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-.dark-mode .github-link a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-elevated);
 }
 
 #github-icon {
-  transition: fill 0.3s ease;
+  transition: fill var(--transition);
 }
 
-.light-mode #github-icon {
-  fill: #24292f;
-}
+.dark-mode #github-icon { fill: var(--text-muted); }
+.dark-mode .github-link a:hover #github-icon { fill: var(--text); }
+.light-mode #github-icon { fill: var(--text-muted); }
+.light-mode .github-link a:hover #github-icon { fill: var(--text); }
 
-.dark-mode #github-icon {
-  fill: #ffffff;
-}
-
+/* Mode toggle */
 .mode-toggle {
   display: flex;
   align-items: center;
   flex: 1;
   justify-content: flex-end;
+  gap: 8px;
 }
 
 #mode-icon {
-  margin-top: 6px;
-  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
 }
 
-/* Toggle switch styling */
 .switch {
   position: relative;
   display: inline-block;
-  width: 34px;
-  height: 20px;
-  margin-left: 8px;
-}
-
-.card {
-  border-radius: 8px;
-  padding: 20px;
-  margin: 20px 0;
-}
-
-.result-card {
-  border-radius: 8px;
-  padding: 20px;
-  margin: 20px 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-.result-card.visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-h2, h3 {
-  color: inherit;
-  margin-top: 0;
-  margin-bottom: 10px;
-}
-
-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 12px 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin: 5px;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.input-field {
-  padding: 10px;
-  margin-top: 10px;
-  font-size: 14px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  background-color: inherit;
-  color: inherit;
-}
-
-/* Adjusting image size within the instruction section */
-.instruction-set .action-icon {
-  width: 64px;
-  height: 64px;
-}
-
-.actions-container img {
-  width: 64px;
-  height: 64px;
-  margin: 5px;
-}
-
-select {
-  padding: 10px;
-  margin-top: 10px;
-  font-size: 14px;
-  border-radius: 4px;
-  border: 1px solid inherit;
-}
-
-.instruction-set {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.instruction-set img {
-  margin-right: 10px;
-}
-
-.action-icon {
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.action-icon:hover {
-  transform: scale(1.1);
-}
-
-#action-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  width: 90%;
-  max-width: 520px;
-}
-
-#action-popup.hidden {
-  display: none;
-}
-
-#action-popup .action-popup-content h3 {
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-#action-popup .action-options {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-#action-popup .action-options img {
-  width: 64px;
-  height: 64px;
-  margin: 5px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-#action-popup .action-options img:hover {
-  transform: scale(1.1);
-}
-
-.popup-button {
-  display: block;
-  margin-left: auto;
-  margin-top: 20px;
-}
-
-/* Blur everything except the popup */
-.blurred {
-  filter: blur(5px);
-  pointer-events: none;
+  width: 40px;
+  height: 22px;
 }
 
 .switch input {
@@ -317,76 +148,822 @@ select {
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 20px;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--border-light);
+  transition: var(--transition);
+  border-radius: 22px;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 12px;
-  width: 12px;
+  height: 14px;
+  width: 14px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
-  transition: .4s;
+  background-color: #fff;
+  transition: var(--transition);
   border-radius: 50%;
 }
 
 input:checked + .slider {
-  background-color: #35bb31;
+  background-color: var(--green);
 }
 
 input:checked + .slider:before {
-  transform: translateX(14px);
+  transform: translateX(18px);
 }
 
-/* Media query for mobile devices */
-@media (max-width: 768px) {
-  #action-popup {
-    width: 80%;
-    max-width: 80%;
-  }
+/* ============================================================
+   Layout
+   ============================================================ */
+.container {
+  padding: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+  transition: filter 0.25s ease;
+}
 
+/* ============================================================
+   Cards
+   ============================================================ */
+.card, .result-card {
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  margin: 14px 0;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.result-card {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+  transform: translateY(6px);
+}
+
+.result-card.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+h2 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 16px 0;
+}
+
+h3 {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-subtle);
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* ============================================================
+   Smithing Instructions
+   ============================================================ */
+.instruction-set {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-card-2);
+  border: 1px solid var(--border);
+  transition: border-color var(--transition);
+}
+
+.instruction-set:last-of-type {
+  margin-bottom: 0;
+}
+
+.instruction-set:hover {
+  border-color: var(--border-light);
+}
+
+/* Action icon in Instructions — transparent, no background */
+.instruction-set .action-icon {
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  background: transparent;
+  image-rendering: pixelated;
+  transition: transform var(--transition), opacity var(--transition);
+  flex-shrink: 0;
+}
+
+.instruction-set .action-icon:hover {
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+
+/* Priority select — transparent background */
+.priority {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition);
+  flex: 1;
+}
+
+.priority:focus {
+  border-color: var(--accent);
+}
+
+.priority option {
+  background-color: var(--bg-card);
+  color: var(--text);
+}
+
+/* ============================================================
+   Target Value
+   ============================================================ */
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  margin-top: 4px;
+}
+
+.input-field {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-card-2);
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  flex: 1;
+  min-width: 0;
+}
+
+.input-field:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.input-field::placeholder {
+  color: var(--text-subtle);
+}
+
+.input-field[type="number"]::-webkit-outer-spin-button,
+.input-field[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-field[type="number"] { -moz-appearance: textfield; }
+
+/* Button */
+button {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 22px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  white-space: nowrap;
+}
+
+#calculate-button {
+  background-color: var(--green);
+  color: #fff;
+  letter-spacing: 0.2px;
+}
+
+#calculate-button:hover {
+  background-color: var(--green-hover);
+  box-shadow: 0 4px 14px var(--green-glow);
+}
+
+#calculate-button:active {
+  transform: scale(0.96);
+}
+
+/* ============================================================
+   Target Value screenshot paste — auto-read from anvil GUI
+   ============================================================ */
+.screenshot-dropzone {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px dashed var(--border-light);
+  background-color: var(--bg-card-2);
+  color: var(--text-subtle);
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition), background-color var(--transition), color var(--transition);
+}
+
+.screenshot-dropzone:hover,
+.screenshot-dropzone:focus {
+  border-color: var(--accent);
+  color: var(--text-muted);
+}
+
+.screenshot-status {
+  margin-top: 8px;
+  font-size: 12px;
+  min-height: 14px;
+}
+
+.screenshot-status.status-success {
+  color: var(--green);
+}
+
+.screenshot-status.status-error {
+  color: #d64545;
+}
+
+/* ============================================================
+   Result Section
+   ============================================================ */
+.setup {
+  margin-bottom: 20px;
+}
+
+.final-instructions {
+  margin-bottom: 0;
+}
+
+.actions-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 20px;
+}
+
+/* Result icon wrappers — colored backgrounds */
+.result-icon-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 64px;
+  min-height: 64px;
+  padding: 4px 0;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.result-icon-wrapper:hover {
+  transform: translateY(-2px);
+}
+
+.result-icon-wrapper .result-icon {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+  display: block;
+}
+
+/* Badge showing an item's position within a run of consecutive repeats */
+.result-icon-badge {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background-color: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--border-light);
+}
+
+/* Per-action color backgrounds — synced with color-ref.txt */
+.result-icon-wrapper[data-action="punch"] {
+  background-color: rgba(137, 217, 104, 0.50); /* #89D968 */
+  border-color: rgba(137, 217, 104, 0.9);
+}
+.result-icon-wrapper[data-action="punch"]:hover {
+  box-shadow: 0 4px 14px rgba(137, 217, 104, 0.55);
+}
+
+.result-icon-wrapper[data-action="bend"] {
+  background-color: rgba(232, 214, 117, 0.50); /* #E8D675 */
+  border-color: rgba(232, 214, 117, 0.9);
+}
+.result-icon-wrapper[data-action="bend"]:hover {
+  box-shadow: 0 4px 14px rgba(232, 214, 117, 0.55);
+}
+
+.result-icon-wrapper[data-action="upset"] {
+  background-color: rgba(202, 135, 89, 0.50); /* #CA8759 */
+  border-color: rgba(202, 135, 89, 0.9);
+}
+.result-icon-wrapper[data-action="upset"]:hover {
+  box-shadow: 0 4px 14px rgba(202, 135, 89, 0.55);
+}
+
+.result-icon-wrapper[data-action="shrink"] {
+  background-color: rgba(174, 61, 61, 0.50); /* #AE3D3D */
+  border-color: rgba(174, 61, 61, 0.9);
+}
+.result-icon-wrapper[data-action="shrink"]:hover {
+  box-shadow: 0 4px 14px rgba(174, 61, 61, 0.55);
+}
+
+.result-icon-wrapper[data-action="hit1"] {
+  background-color: rgba(106, 221, 221, 0.50); /* #6ADDDD */
+  border-color: rgba(106, 221, 221, 0.9);
+}
+.result-icon-wrapper[data-action="hit1"]:hover {
+  box-shadow: 0 4px 14px rgba(106, 221, 221, 0.55);
+}
+
+.result-icon-wrapper[data-action="hit2"] {
+  background-color: rgba(78, 144, 192, 0.50); /* #4E90C0 */
+  border-color: rgba(78, 144, 192, 0.9);
+}
+.result-icon-wrapper[data-action="hit2"]:hover {
+  box-shadow: 0 4px 14px rgba(78, 144, 192, 0.55);
+}
+
+.result-icon-wrapper[data-action="hit3"] {
+  background-color: rgba(49, 66, 163, 0.50); /* #3142A3 */
+  border-color: rgba(49, 66, 163, 0.9);
+}
+.result-icon-wrapper[data-action="hit3"]:hover {
+  box-shadow: 0 4px 14px rgba(49, 66, 163, 0.55);
+}
+
+/* "hit" (generic, used in popup selection) and "empty" are transparent per color-ref.txt */
+
+.result-icon-wrapper[data-action="draw"] {
+  background-color: rgba(116, 0, 255, 0.50); /* #7400FF */
+  border-color: rgba(116, 0, 255, 0.9);
+}
+.result-icon-wrapper[data-action="draw"]:hover {
+  box-shadow: 0 4px 14px rgba(116, 0, 255, 0.55);
+}
+
+/* ============================================================
+   Result actions / Save Recipe button
+   ============================================================ */
+.result-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.secondary-button {
+  background-color: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-light);
+}
+
+.secondary-button:hover {
+  background-color: var(--bg-elevated);
+}
+
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.secondary-button:disabled:hover {
+  background-color: transparent;
+}
+
+.small-button {
+  padding: 6px 14px;
+  font-size: 12px;
+}
+
+.secondary-button.active {
+  background-color: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ============================================================
+   Recent Anvil Recipes — horizontal scrollable row
+   ============================================================ */
+.recent-recipes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.recent-recipes-header h2 {
+  margin-bottom: 0;
+}
+
+.recent-recipes-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chain-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.chain-hint.hidden {
+  display: none;
+}
+
+.recipes-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 4px 6px 4px;
+}
+
+.recipe-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 72px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+.recipe-item:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.recipe-item-icon-wrap {
+  position: relative;
+}
+
+.recipe-item-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background-color: var(--bg-card-2);
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.recipe-item-delete {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1.5px solid var(--bg-card);
+  background-color: #ae3d3d;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  transition: opacity var(--transition), background-color var(--transition), border-color var(--transition), transform var(--transition);
+}
+
+.recipe-item:hover .recipe-item-delete,
+.recipe-item-delete:focus {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.recipe-item-delete:hover,
+.recipe-item-delete:focus {
+  background-color: #d64545;
+  transform: scale(1.15);
+}
+
+.recipe-item-name {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Chain-view mode — item selection */
+.recipes-row.chain-mode .recipe-item-delete {
+  display: none;
+}
+
+.recipes-row.chain-mode .recipe-item-icon {
+  border-color: var(--border-light);
+}
+
+.recipe-item.selected .recipe-item-icon {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.recipe-item-check {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ============================================================
+   Dialogs — Save Recipe / View Recipe (centered overlay)
+   ============================================================ */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-overlay.hidden {
+  display: none;
+}
+
+.dialog-card {
+  width: 100%;
+  max-width: 380px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  animation: popup-in 0.14s ease;
+}
+
+.save-recipe-form {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.icon-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1.5px dashed var(--border-light);
+  background-color: var(--bg-card-2);
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+.icon-dropzone:hover,
+.icon-dropzone:focus {
+  border-color: var(--accent);
+}
+
+.icon-dropzone img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  image-rendering: pixelated;
+}
+
+.icon-dropzone-hint {
+  font-size: 10px;
+  color: var(--text-subtle);
+  text-align: center;
+}
+
+.save-recipe-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.save-recipe-fields label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.save-recipe-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.view-recipe-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.view-recipe-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background-color: var(--bg-card-2);
+  object-fit: cover;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+.view-recipe-header h2 {
+  margin: 0 0 4px 0;
+  font-size: 15px;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text);
+}
+
+/* ============================================================
+   Recipe Chain Dialog — two recipes side by side
+   ============================================================ */
+.recipe-chain-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 820px;
+  max-height: calc(100vh - 32px);
+}
+
+.recipe-chain-wrapper {
+  display: flex;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.recipe-chain-card {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+}
+
+.recipe-chain-dialog .dialog-buttons {
+  margin-top: 0;
+}
+
+@media (max-width: 640px) {
+  .recipe-chain-wrapper {
+    flex-direction: column;
+  }
+}
+
+/* ============================================================
+   Action Selection Popup — dropdown anchored under the clicked icon
+   ============================================================ */
+#action-popup {
+  position: absolute;
+  z-index: 1100;
+  max-width: 280px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 10px;
+  box-shadow: var(--shadow);
+  animation: popup-in 0.14s ease;
+}
+
+#action-popup.hidden {
+  display: none;
+}
+
+@keyframes popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#action-popup .action-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Popup action icons — transparent background */
+#action-popup .action-options img {
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  padding: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  image-rendering: pixelated;
+  transition: transform var(--transition), border-color var(--transition), background-color var(--transition);
+}
+
+#action-popup .action-options img:hover {
+  transform: scale(1.1);
+  border-color: var(--accent);
+  background-color: var(--bg-elevated);
+}
+
+/* ============================================================
+   Media Queries
+   ============================================================ */
+@media (max-width: 768px) {
   .app-header {
     flex-wrap: wrap;
     justify-content: center;
-    padding: 15px;
-    position: relative;  /* Remove sticky positioning for mobile */
+    padding: 12px 16px;
+    position: relative;
   }
 
   .app-header .logo {
-    font-size: 24px;
+    font-size: 17px;
     flex: none;
     width: 100%;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .mode-toggle {
     flex: none;
     width: 100%;
     justify-content: center;
-    margin-top: 10px;
-  }
-
-  #mode-icon {
-    margin-top: 8px;
-    margin-right: 4px;
-  }
-
-  .switch {
-    margin-left: 4px;
+    margin-top: 6px;
   }
 
   .github-link-container {
     position: static;
     transform: none;
-    margin: 10px 0;
+    margin: 4px 0;
+  }
+
+  .container {
+    padding: 16px;
+  }
+
+  .input-row {
+    flex-direction: column;
+  }
+
+  #calculate-button {
+    width: 100%;
+  }
+
+  #action-popup {
+    max-width: calc(100vw - 32px);
   }
 }
