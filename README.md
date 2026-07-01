@@ -64,18 +64,6 @@ or icon, or delete it. Use "View Chain" to select two saved recipes and compare 
 ### 5. Switch Between Light and Dark Modes
 Use the toggle switch in the top right corner to switch between light and dark modes according to your preference.
 
-## GitHub Pages Setup
-
-This repository already includes a workflow (`.github/workflows/static.yml`) that deploys the site to GitHub Pages
-automatically on every push to `main`. Since Pages settings aren't carried over to forks, you only need to enable
-it once:
-
-1. On GitHub, go to **Settings → Pages**.
-2. Under **Build and deployment → Source**, select **GitHub Actions**.
-3. Push to `main` (or re-run the workflow from the **Actions** tab) to trigger the first deployment.
-
-Once deployed, the site will be available at `https://<your-username>.github.io/<your-repo-name>/src/index.html`.
-
 ## Support
 If you encounter any issues or have suggestions for improvements regarding this fork,
 feel free to open an issue on this [GitHub repository](https://github.com/owlyfans/tfg-anvil-calculator-extended/issues/new/choose).
